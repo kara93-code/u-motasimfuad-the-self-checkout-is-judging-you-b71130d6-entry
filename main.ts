@@ -24,6 +24,12 @@ function checkedLine(raw: string): string {
   if (line.includes("\n") || line.includes("\r")) {
     throw new Error("entry must be a single line");
   }
+  if (/[\u0000-\u001f\u007f]/.test(line)) {
+    throw new Error("entry must not contain control characters");
+  }
+  if (line !== line.replace(/\s+/g, " ")) {
+    throw new Error("entry must use single spaces only");
+  }
   return line;
 }
 
